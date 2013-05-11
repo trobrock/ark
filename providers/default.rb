@@ -65,7 +65,7 @@ action :install do
 
   # symlink binaries
   new_resource.has_binaries.each do |bin|
-    link ::File.join(new_resource.prefix_root, new_resource.prefix_bin, ::File.basename(bin)) do
+    link ::File.join(new_resource.prefix_bin, ::File.basename(bin)) do
       to ::File.join(new_resource.path, ::File.basename(bin))
     end
   end
@@ -235,7 +235,7 @@ action :install_with_make do
     notifies :run, "execute[make install #{new_resource.path}]"
     action :nothing
   end
-  
+
   execute "autogen #{new_resource.path}" do
     command "./autogen.sh"
     only_if "test -f ./autogen.sh"
