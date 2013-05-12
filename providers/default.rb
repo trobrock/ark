@@ -66,7 +66,7 @@ action :install do
   # symlink binaries
   new_resource.has_binaries.each do |bin|
     link ::File.join(new_resource.prefix_bin, ::File.basename(bin)) do
-      to ::File.join(new_resource.path, ::File.basename(bin))
+      to ::File.join(new_resource.path, bin)
     end
   end
 
@@ -173,8 +173,10 @@ end
 action :cherry_pick do
   set_dump_paths
   Chef::Log.debug("DEBUG: new_resource.creates #{new_resource.creates}")
+
+  subdir=::File.dirname(new_resource.creates)
   
-  directory "#{new_resource.path}" do
+  directory "#{new_resource.path}/#{subdir}" do
     recursive true
     action :create
     notifies :run, "execute[cherry_pick #{new_resource.creates} from #{new_resource.release_file}]"

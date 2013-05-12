@@ -75,12 +75,14 @@ end
 def cherry_pick_command
   cmd = node['ark']['tar']
   
+  subdir=::File.dirname(new_resource.creates)
+  
   case unpack_type
   when "tar_xzf"
     cmd = cmd + " xzf "
     cmd = cmd + " #{new_resource.release_file}"
     cmd = cmd + " -C"
-    cmd = cmd + " #{new_resource.path}"
+    cmd = cmd + " #{new_resource.path}/#{subdir}"
     cmd = cmd + " #{new_resource.creates}"
     cmd = cmd + tar_strip_args
   when "tar_xjf"
