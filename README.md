@@ -26,6 +26,11 @@ empty. Ark provides many actions to accommodate different use cases, such as `:d
 
 At this time ark only handles files available from URLs. It does not handle local files.
 
+Requirements
+============
+Version of ark as of 1.0.0 and later require Chef 11 or higher.
+It takes advantage of "use_inline_resources" directive in the LWRP DSL.
+
 Attributes
 ==========
 
