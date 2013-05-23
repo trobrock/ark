@@ -34,15 +34,15 @@ use_inline_resources
 action :install do
   set_paths
   
-  directory "#{new_resource.path}" do
+  directory new_resource.path do
     recursive true
     action :create
     notifies :run, "execute[unpack #{new_resource.release_file}]"
   end
   
-  remote_file "#{new_resource.release_file}" do
+  remote_file new_resource.release_file do
     Chef::Log.debug("DEBUG: new_resource.release_file")
-    source "#{new_resource.url}"
+    source new_resource.url
     if new_resource.checksum then checksum new_resource.checksum end
     action :create
     notifies :run, "execute[unpack #{new_resource.release_file}]"
@@ -71,8 +71,8 @@ action :install do
   end
 
   # action_link_paths
-  link "#{new_resource.home_dir}" do
-    to "#{new_resource.path}"
+  link new_resource.home_dir do
+    to new_resource.path
   end
 
   # Add to path for interactive bash sessions
@@ -100,15 +100,15 @@ end
 action :put do
   set_put_paths
 
-  directory "#{new_resource.path}" do
+  directory new_resource.path do
     recursive true
     action :create
     notifies :run, "execute[unpack #{new_resource.release_file}]"
   end
 
   # download
-  remote_file "#{new_resource.release_file}" do
-    source "#{new_resource.url}"
+  remote_file new_resource.release_file do
+    source new_resource.url
     if new_resource.checksum then checksum new_resource.checksum end
     action :create
     notifies :run, "execute[unpack #{new_resource.release_file}]"
@@ -136,16 +136,16 @@ end
 action :dump do
   set_dump_paths
 
-  directory "#{new_resource.path}" do
+  directory new_resource.path do
     recursive true
     action :create
     notifies :run, "execute[unpack #{new_resource.release_file}]"
   end
 
   # download
-  remote_file "#{new_resource.release_file}" do
+  remote_file new_resource.release_file do
     Chef::Log.debug("DEBUG: new_resource.release_file #{new_resource.release_file}")
-    source "#{new_resource.url}"
+    source new_resource.url
     if new_resource.checksum then checksum new_resource.checksum end
     action :create
     notifies :run, "execute[unpack #{new_resource.release_file}]"
@@ -183,8 +183,8 @@ action :cherry_pick do
   end
     
   # download
-  remote_file "#{new_resource.release_file}" do
-    source "#{new_resource.url}"
+  remote_file new_resource.release_file do
+    source new_resource.url
     if new_resource.checksum then checksum new_resource.checksum end
     action :create
     notifies :run, "execute[cherry_pick #{new_resource.creates} from #{new_resource.release_file}]"
@@ -212,15 +212,15 @@ end
 action :install_with_make do
   set_paths
   
-  directory "#{new_resource.path}" do
+  directory new_resource.path do
     recursive true
     action :create
     notifies :run, "execute[unpack #{new_resource.release_file}]"
   end
   
-  remote_file "#{new_resource.release_file}" do
+  remote_file new_resource.release_file do
     Chef::Log.debug("DEBUG: new_resource.release_file")
-    source "#{new_resource.url}"
+    source new_resource.url
     if new_resource.checksum then checksum new_resource.checksum end
     action :create
     notifies :run, "execute[unpack #{new_resource.release_file}]"
@@ -241,7 +241,7 @@ action :install_with_make do
   execute "autogen #{new_resource.path}" do
     command "./autogen.sh"
     only_if "test -f ./autogen.sh"
-    cwd "#{new_resource.path}"
+    cwd new_resource.path
     environment new_resource.environment
     action :nothing
     ignore_failure true
@@ -250,21 +250,21 @@ action :install_with_make do
   execute "configure #{new_resource.path}" do
     command "./configure #{new_resource.autoconf_opts.join(' ')}"
     only_if "test -f ./configure"
-    cwd "#{new_resource.path}"
+    cwd new_resource.path
     environment new_resource.environment
     action :nothing
   end
 
   execute "make #{new_resource.path}" do
     command "make #{new_resource.make_opts.join(' ')}"
-    cwd "#{new_resource.path}"
+    cwd new_resource.path
     environment new_resource.environment
     action :nothing
   end
   
   execute "make install #{new_resource.path}" do
     command "make install #{new_resource.make_opts.join(' ')}"
-    cwd "#{new_resource.path}"
+    cwd new_resource.path
     environment new_resource.environment
     action :nothing
   end
@@ -279,15 +279,15 @@ end
 action :configure do
   set_paths
   
-  directory "#{new_resource.path}" do
+  directory new_resource.path do
     recursive true
     action :create
     notifies :run, "execute[unpack #{new_resource.release_file}]"
   end
   
-  remote_file "#{new_resource.release_file}" do
+  remote_file new_resource.release_file do
     Chef::Log.debug("DEBUG: new_resource.release_file")
-    source "#{new_resource.url}"
+    source new_resource.url
     if new_resource.checksum then checksum new_resource.checksum end
     action :create
     notifies :run, "execute[unpack #{new_resource.release_file}]"
@@ -306,7 +306,7 @@ action :configure do
   execute "autogen #{new_resource.path}" do
     command "./autogen.sh"
     only_if "test -f #{new_resource.path}/autogen.sh"
-    cwd "#{new_resource.path}"
+    cwd new_resource.path
     environment new_resource.environment
     action :nothing
     ignore_failure true
@@ -315,7 +315,7 @@ action :configure do
   execute "configure #{new_resource.path}" do
     command "./configure #{new_resource.autoconf_opts.join(' ')}"
     only_if "test -f ./configure"
-    cwd "#{new_resource.path}"
+    cwd new_resource.path
     environment new_resource.environment
     action :nothing
   end
